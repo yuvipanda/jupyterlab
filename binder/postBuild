@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euo pipefail
+
+jlpm
+jlpm run build
+
+cd examples/notebook
+jlpm
+jlpm run build

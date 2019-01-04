@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+import sys
+import shutil
+import os
+
+# Strip off 'jupyter' and 'notebook'
+args = ['python3', 'examples/notebook/main.py', '--ip=0.0.0.0'] + sys.argv[3:]
+
+print(args, flush=True)
+os.execv(shutil.which('python3'), args)
