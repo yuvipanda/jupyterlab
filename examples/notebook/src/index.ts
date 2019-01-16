@@ -8,7 +8,7 @@ import '../index.css';
 
 import { CommandRegistry } from '@phosphor/commands';
 
-import { CommandPalette, SplitPanel, Widget } from '@phosphor/widgets';
+import { CommandPalette, SplitPanel, Widget, Panel } from '@phosphor/widgets';
 
 import { ServiceManager } from '@jupyterlab/services';
 import { MathJaxTypesetter } from '@jupyterlab/mathjax2';
@@ -147,7 +147,7 @@ function createApp(manager: ServiceManager.IManager): void {
   completer.hide();
 
   let panel = new SplitPanel();
-  panel.id = 'main';
+  panel.id = 'notebook-panel';
   panel.orientation = 'horizontal';
   panel.spacing = 0;
   SplitPanel.setStretch(palette, 0);
@@ -155,8 +155,20 @@ function createApp(manager: ServiceManager.IManager): void {
   panel.addWidget(palette);
   panel.addWidget(nbWidget);
 
+  let fullPanel = new Panel();
+  fullPanel.id = 'main';
+
+  let titleWidget = new Widget();
+  let titleNode = document.createElement('h1');
+  titleNode.innerText = 'hi';
+  titleWidget.node.appendChild(titleNode);
+  titleWidget.addClass('jp-PageHeader');
+
+  fullPanel.addWidget(titleWidget);
+  fullPanel.addWidget(panel);
+
   // Attach the panel to the DOM.
-  Widget.attach(panel, document.body);
+  Widget.attach(fullPanel, document.body);
   Widget.attach(completer, document.body);
 
   // Handle resize events.
