@@ -8,7 +8,12 @@ import '../index.css';
 
 import { CommandRegistry } from '@phosphor/commands';
 
-import { CommandPalette, SplitPanel, Widget, Panel } from '@phosphor/widgets';
+import {
+  CommandPalette,
+  SplitPanel,
+  Widget,
+  BoxPanel
+} from '@phosphor/widgets';
 
 import { ServiceManager } from '@jupyterlab/services';
 import { MathJaxTypesetter } from '@jupyterlab/mathjax2';
@@ -147,7 +152,6 @@ function createApp(manager: ServiceManager.IManager): void {
   completer.hide();
 
   let panel = new SplitPanel();
-  panel.id = 'notebook-panel';
   panel.orientation = 'horizontal';
   panel.spacing = 0;
   SplitPanel.setStretch(palette, 0);
@@ -155,17 +159,24 @@ function createApp(manager: ServiceManager.IManager): void {
   panel.addWidget(palette);
   panel.addWidget(nbWidget);
 
-  let fullPanel = new Panel();
-  fullPanel.id = 'main';
+  let fullPanel = new BoxPanel({
+    direction: 'top-to-bottom'
+  });
 
   let titleWidget = new Widget();
+  BoxPanel.setStretch(titleWidget, 0);
+  BoxPanel.setStretch(panel, 1);
+  let titleContainer = document.createElement('div');
+  titleContainer.className = 'jp-PageHeader';
   let titleNode = document.createElement('h1');
   titleNode.innerText = 'hi';
-  titleWidget.node.appendChild(titleNode);
-  titleWidget.addClass('jp-PageHeader');
+  titleContainer.appendChild(titleNode);
+
+  titleWidget.node.appendChild(titleContainer);
 
   fullPanel.addWidget(titleWidget);
   fullPanel.addWidget(panel);
+  fullPanel.id = 'main';
 
   // Attach the panel to the DOM.
   Widget.attach(fullPanel, document.body);

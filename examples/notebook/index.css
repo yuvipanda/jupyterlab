@@ -22,10 +22,12 @@ body {
 }
 
 #notebook-panel {
-  display: block;
+  min-height: 32px;
 }
 
 .jp-PageHeader {
+  min-height: 1.5em;
+  max-height: 15em;
 }
 
 .jp-NotebookPanel {
